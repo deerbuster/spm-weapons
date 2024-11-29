@@ -1,0 +1,95 @@
+/* Container for the entire weapon class selector */
+.weapon-class-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Space between steps */
+}
+
+/* Step labels for all steps */
+.step-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3f51b5; /* Material Design primary color */
+  margin-right: 8px; /* Space between label and value */
+  display: inline-block; /* Ensures alignment with value */
+}
+
+/* Row for steps with labels and values on the same line */
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between label and value */
+}
+
+/* Values for aperture energy and fumble range */
+.step-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3f51b5; /* Match step label color */
+}
+
+/* Row layout for selectors (Class, Template, etc.) */
+.selector-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between selectors */
+}
+
+/* Individual selector styling */
+.class-selector,
+.template-selector,
+.tech-level-selector,
+.weapon-type-selector {
+  width: 400px; /* Fixed width for all dropdowns */
+}
+
+/* Specific styling for Fumble Range and Aperture Energy labels */
+.aperture-energy,
+.fumble-range {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3f51b5; /* Match Material Design primary color */
+  margin-top: 8px;
+}
+
+.bonus-slider,
+.action-selector,
+.reliability-slider {
+  width: 400px; /* Match other selectors and sliders */
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Adjust spacing between label and value */
+}
+
+.power-cell-selector {
+  width: 120px; /* Adjust width for compact dropdown */
+}
+
+.step-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.sub-step-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Minimal gap for sub-steps */
+  margin-left: 16px; /* Indent sub-steps under the main step label */
+}
+
+.sub-step-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f51b5;
+  min-width: 180px; /* Ensure labels align neatly */
+}
+
+.sub-step-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f51b5;
+}

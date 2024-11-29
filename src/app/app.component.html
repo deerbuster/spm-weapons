@@ -1,0 +1,282 @@
+<div class="weapon-class-selector">
+  <!-- Step 1: Select Weapon Class -->
+  <div class="step-label">Step 1: Select Weapon Class</div>
+  <div class="selector-row">
+    <mat-form-field appearance="fill" class="class-selector">
+      <mat-label>Class</mat-label>
+      <mat-select [(ngModel)]="selectedClass" (selectionChange)="onClassChange()">
+        <mat-option *ngFor="let weaponClass of classes" [value]="weaponClass">
+          {{ weaponClass }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="template-selector">
+      <mat-label>Template</mat-label>
+      <mat-select [(ngModel)]="selectedTemplate">
+        <mat-option *ngFor="let template of templates" [value]="template">
+          {{ template }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Step 2: Select Tech Level -->
+  <div class="step-label">Step 2: Select Tech Level</div>
+  <mat-form-field appearance="fill" class="tech-level-selector">
+    <mat-label>Tech Level</mat-label>
+    <mat-select [(ngModel)]="selectedTechLevel" (selectionChange)="onTechLevelChange()">
+      <mat-option *ngFor="let tech of techLevels" [value]="tech">
+        {{ tech.name }} (Level: {{ tech.level }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Step 3: Select Weapon Type -->
+  <div class="step-label">Step 3: Select Weapon Type:</div>
+  <mat-form-field appearance="fill" class="weapon-type-selector">
+    <mat-label>Weapon Type</mat-label>
+    <mat-select [(ngModel)]="selectedWeaponType" (selectionChange)="onWeaponTypeChange()">
+      <mat-option
+        *ngFor="let type of weaponTypes"
+        [value]="type"
+        [disabled]="isWeaponTypeDisabled(type)"
+      >
+        {{ type }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Step 4: Aperture Energy -->
+  <div class="step-row">
+    <span class="step-label">Step 4: Aperture Energy:</span>
+    <span class="step-value">
+      <strong *ngIf="getApertureEnergy() !== null">
+        {{ getApertureEnergy() }}
+      </strong>
+      <span *ngIf="getApertureEnergy() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 5: Fumble Range -->
+  <div class="step-row">
+    <span class="step-label">Step 5: Fumble Range:</span>
+    <span class="step-value">
+      <strong *ngIf="getFumbleRange() !== null">
+        {{ getFumbleRange() }}
+      </strong>
+      <span *ngIf="getFumbleRange() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 6: Bonus -->
+  <div class="step-row">
+    <span class="step-label">Step 6: Bonus ({{ getBonusRange() }}):</span>
+    <mat-slider
+      [min]="0"
+      [max]="getMaxBonus()"
+      step="1"
+      thumbLabel
+    >
+      <input matSliderThumb [(ngModel)]="selectedBonus" />
+    </mat-slider>
+    <span class="step-value">{{ selectedBonus }}</span>
+  </div>
+
+  <!-- Step 7: Choose Action -->
+  <div class="step-row">
+    <span class="step-label">Step 7: Choose Action:</span>
+    <mat-form-field appearance="fill" class="action-selector">
+      <mat-label>Action</mat-label>
+      <mat-select [(ngModel)]="selectedAction">
+        <mat-option *ngFor="let action of actions" [value]="action">
+          {{ action }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="step-value">Updated Aperture Energy: {{ getApertureEnergyWithPenalty() }}</span>
+  </div>
+
+    <!-- Step 8: Breakage Number -->
+  <div class="step-row">
+    <span class="step-label">Step 8: Breakage Number:</span>
+    <span class="step-value">
+      <strong *ngIf="getBreakageNumber() !== null">
+        {{ getBreakageNumber() }}
+      </strong>
+      <span *ngIf="getBreakageNumber() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 9: Reliability -->
+  <div class="step-row">
+    <span class="step-label">Step 9: Reliability:</span>
+    <span class="step-value">
+      <strong *ngIf="getTotalReliability() !== null">
+        {{ getTotalReliability() }}
+      </strong>
+      <span *ngIf="getTotalReliability() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+  <div class="step-row">
+    <span class="step-label">Reliability Adjustment:</span>
+    <mat-slider
+      [min]="getReliabilityAdjustmentRange().min"
+      [max]="getReliabilityAdjustmentRange().max"
+      step="1"
+      thumbLabel
+    >
+      <input matSliderThumb [(ngModel)]="selectedReliabilityAdjustment" />
+    </mat-slider>
+    <span class="step-value">Adjustment: {{ selectedReliabilityAdjustment }}</span>
+  </div>
+
+  <!-- Step 10: Hunting Classification -->
+  <div class="step-row">
+    <span class="step-label">Step 10: Hunting Classification:</span>
+    <span class="step-value">
+      <strong *ngIf="getHuntingClassification() !== null">
+        {{ getHuntingClassification() }}
+      </strong>
+      <span *ngIf="getHuntingClassification() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 11: Power Source -->
+  <div class="step-row">
+    <span class="step-label">Step 11: Power Source:</span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Power Cell Capacity:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="getPowerCellCapacity() !== null">
+        {{ getPowerCellCapacity() }}
+      </strong>
+      <span *ngIf="getPowerCellCapacity() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Number of Power Cells:</span>
+    <mat-form-field appearance="fill" class="power-cell-selector">
+      <mat-label>Power Cells</mat-label>
+      <mat-select [(ngModel)]="selectedPowerCells">
+        <mat-option *ngFor="let count of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="count">
+          {{ count }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Shots Per Power Cell:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="getShotsPerPowerCell() !== null">
+        {{ getShotsPerPowerCell() }}
+      </strong>
+      <span *ngIf="getShotsPerPowerCell() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Total Shots:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="getTotalShots() !== null">
+        {{ getTotalShots() }}
+      </strong>
+      <span *ngIf="getTotalShots() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 12: Weapon Weight -->
+  <div class="step-row">
+    <span class="step-label">Step 12: Weapon Weight:</span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Base Weapon Weight:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="getWeaponWeight() !== null">
+        {{ getWeaponWeight() }} kg
+      </strong>
+      <span *ngIf="getWeaponWeight() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Weight Modifier:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="selectedWeaponType">
+        x{{ getWeightModifier() }}
+      </strong>
+      <span *ngIf="!selectedWeaponType">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Total Weight:</span>
+    <span class="sub-step-value">
+      <strong *ngIf="getTotalWeight() !== null">
+        {{ getTotalWeight() | number: '1.1-2' }} kg
+      </strong>
+      <span *ngIf="getTotalWeight() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+  <!-- Step 13: Weapon Ranges -->
+  <div class="step-row">
+    <span class="step-label">Step 13: Weapon Ranges:</span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Range Increment:</span>
+    <mat-slider
+      [min]="0"
+      [max]="200"
+      step="5"
+      thumbLabel
+    >
+      <input matSliderThumb [(ngModel)]="selectedRangeIncrement" />
+    </mat-slider>
+    <span class="sub-step-value">{{ selectedRangeIncrement }}%</span>
+  </div>
+  <div class="sub-step-row">
+    <span class="sub-step-label">Final Ranges:</span>
+    <span class="sub-step-value" *ngIf="getFinalRanges() as ranges">
+      PB: {{ ranges.PB }}, Sh: {{ ranges.Sh }}, Me: {{ ranges.Me }},
+      Lo: {{ ranges.Lo }}, Ex: {{ ranges.Ex }}
+    </span>
+    <span class="sub-step-value" *ngIf="!getFinalRanges()">
+      (Incomplete Selection)
+    </span>
+  </div>
+
+  <!-- Step 14: Cost -->
+  <div class="step-row">
+    <span class="step-label">Step 14: Cost:</span>
+    <span class="step-value">
+      <strong *ngIf="getTotalCost() !== null">
+        {{ getTotalCost() | currency }}
+      </strong>
+      <span *ngIf="getTotalCost() === null">
+        (Incomplete Selection)
+      </span>
+    </span>
+  </div>
+
+</div>
