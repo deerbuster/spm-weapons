@@ -44,6 +44,7 @@ export class AppComponent {
   selectedPowerCells: number = 1; // Default to 1 power cell
   selectedRangeIncrement: number = 0; // Default to 0% increment
   selectedWeapon: Weapon | undefined;
+  selectedWeightReduction: number = 0;
 
   constructor() {
     this.populateClasses();
@@ -368,10 +369,14 @@ export class AppComponent {
       return null; // Incomplete selection or invalid data
     }
   
-    const energyValue = parseInt(energy.slice(3), 10); // Extract numerical value
+    let energyValue = parseInt(energy.slice(3), 10); // Extract numerical value
     if (energyValue === 0) {
       return null; // Avoid division by zero
     }
+    if (this.selectedWeaponType === 'Plasma'){
+      energyValue = energyValue * 2;
+    }
+      
   
     return Math.floor(capacity / energyValue);
   }
@@ -408,7 +413,7 @@ export class AppComponent {
     }
   
     const modifier = this.getWeightModifier();
-    return baseWeight * modifier;
+    return Math.round(baseWeight * modifier * (1-this.selectedWeightReduction/100) * 10)/10;
   }
 
   getBaseRanges(): { PB: number; Sh: number; Me: number; Lo: number; Ex: number } | null {
@@ -482,6 +487,9 @@ export class AppComponent {
     if (this.selectedReliabilityAdjustment) {
       totalModifiers += Math.pow(this.selectedReliabilityAdjustment, 2); // Reliability squared as a percent
     }
+
+    // Weight Reduction Adjustment
+    totalModifiers += Math.pow(this.selectedWeightReduction, 2);
   
     // Range Increment Modifier
     totalModifiers += this.selectedRangeIncrement || 0; // Add range increment percentage

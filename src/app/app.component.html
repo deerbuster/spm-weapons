@@ -229,6 +229,18 @@
           </span>
         </span>
       </div>
+      <div class="step-row">
+        <span class="step-label">Weight Reduction:</span>
+        <mat-slider
+          [min]="0"
+          [max]="50"
+          step="1"
+          thumbLabel
+        >
+          <input matSliderThumb [(ngModel)]="selectedWeightReduction" />
+        </mat-slider>
+        <span class="step-value">Reduction: {{ selectedWeightReduction }}</span>
+      </div>
       <div class="sub-step-row">
         <span class="sub-step-label">Total Weight:</span>
         <span class="sub-step-value">
