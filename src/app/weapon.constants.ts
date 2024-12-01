@@ -1,3 +1,21 @@
+export interface Weapon {
+  base: string;       // The base category of the weapon (e.g., "Pistol").
+  class: string;      // The specific class of the weapon (e.g., "Pistol, Hold-Out").
+  template: string;   // The weapon's template name (e.g., "Light Pistol (Holdout)").
+  pb: number;         // The point-blank range.
+  sh: number;         // The short range.
+  me: number;         // The medium range.
+  lo: number;         // The long range.
+  ex: number;         // The extreme range.
+  cost: number;       // The cost of the weapon.
+  weight: number;     // The weight of the weapon in kilograms.
+}
+
+export interface TechLevel {
+  name: string;
+  level: number;
+  powerCellCapacity: number;
+}
 
 export const WeaponConstants = {
   weaponData: [
@@ -45,4 +63,72 @@ export const WeaponConstants = {
   rangeMultipliers: { Laser: 5, Plasma: 0.5, Blaster: 1, Sonic: 1 },
   actionModifiers: { 'Automatic Fire': 50, 'Continuous Fire': 100, 'Semi-Automatic Fire': 0 },
   weightModifiers:  { Laser: 0.8, Plasma: 1.3, Blaster: 1, Sonic: 1 },
+  energyTable: {
+    "Light Pistol (Holdout)": {
+      Laser: [0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16, 32],
+      Blaster: [0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16, 32],
+      Plasma: [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16],
+    },
+    "Light Pistol": {
+      Laser: [0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32, 64],
+      Blaster: [0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32, 64],
+      Plasma: [0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32],
+    },
+    "Medium Pistol": {
+      Laser: [0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34, 66],
+      Blaster: [0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34, 66],
+      Plasma: [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34],
+    },
+    "Heavy Pistol": {
+      Laser: [0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36, 68],
+      Blaster: [0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36, 68],
+      Plasma: [0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36],
+    },
+    "Light Subassault": {
+      Laser: [0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37, 69],
+      Blaster: [0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37, 69],
+      Plasma: [0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37],
+    },
+    "Medium Subassault": {
+      Laser: [0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39, 71],
+      Blaster: [0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39, 71],
+      Plasma: [0, 0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39],
+    },
+    "Heavy Subassault": {
+      Laser: [0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41, 73],
+      Blaster: [0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41, 73],
+      Plasma: [0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41],
+    },
+    "Light Assault": {
+      Laser: [0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42, 74],
+      Blaster: [0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42, 74],
+      Plasma: [0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42],
+    },
+    "Medium Assault": {
+      Laser: [0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43, 75],
+      Blaster: [0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43, 75],
+      Plasma: [0, 0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43],
+    },
+    "Heavy Assault": {
+      Laser: [0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45, 77],
+      Blaster: [0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45, 77],
+      Plasma: [0, 0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45],
+    },
+    "Light Support": {
+      Laser: [0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46, 78],
+      Blaster: [0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46, 78],
+      Plasma: [0, 0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46],
+    },
+    "Medium Support": {
+      Laser: [0, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48, 80],
+      Blaster: [0, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48, 80],
+      Plasma: [0, 1, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48],
+    },
+    "Heavy Support": {
+      Laser: [1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50, 82],
+      Blaster: [1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50, 82],
+      Plasma: [1, 1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50],
+    },
+  }
+
 };

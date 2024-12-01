@@ -1,158 +1,33 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { TechLevel, Weapon, WeaponConstants } from './weapon.constants';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, FormsModule, MatSliderModule],
+  imports: [CommonModule, MatSelectModule, MatButtonModule, MatCardModule, MatGridListModule, FormsModule, MatSliderModule, MatFormFieldModule, MatInputModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  weaponData = [
-    { base: 'Pistol', class: 'Pistol, Hold-Out', template: 'Light Pistol (Holdout)', pb: 1, sh: 3, me: 4, lo: 7, ex: 18, cost: 700 },
-    { base: 'Pistol', class: 'Pistol, Light', template: 'Light Pistol', pb: 3, sh: 5, me: 8, lo: 13, ex: 35, cost: 350 },
-    { base: 'Pistol', class: 'Pistol, Medium', template: 'Medium Pistol', pb: 3, sh: 5, me: 8, lo: 13, ex: 35, cost: 400 },
-    { base: 'Pistol', class: 'Pistol, Heavy', template: 'Heavy Pistol', pb: 3, sh: 5, me: 8, lo: 13, ex: 35, cost: 550 },
-    { base: 'Subassault', class: 'Subassault, Light', template: 'Light Subassault', pb: 1, sh: 10, me: 20, lo: 50, ex: 100, cost: 500 },
-    { base: 'Subassault', class: 'Subassault, Medium', template: 'Medium Subassault', pb: 1, sh: 10, me: 20, lo: 50, ex: 100, cost: 800 },
-    { base: 'Subassault', class: 'Subassault, Heavy', template: 'Heavy Subassault', pb: 1, sh: 10, me: 20, lo: 50, ex: 100, cost: 1100 },
-    { base: 'Hunting', class: 'Hunting, Light', template: 'Light Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 400 },
-    { base: 'Hunting', class: 'Hunting, Medium', template: 'Medium Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 500 },
-    { base: 'Hunting', class: 'Hunting, Heavy', template: 'Heavy Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 700 },
-    { base: 'Assault', class: 'Assault, Light', template: 'Light Assault', pb: 1, sh: 10, me: 20, lo: 100, ex: 200, cost: 400 },
-    { base: 'Assault', class: 'Assault, Medium', template: 'Medium Assault', pb: 1, sh: 10, me: 20, lo: 100, ex: 200, cost: 500 },
-    { base: 'Assault', class: 'Assault, Heavy', template: 'Heavy Assault', pb: 1, sh: 10, me: 20, lo: 100, ex: 200, cost: 700 },
-    { base: 'Sniping', class: 'Sniping, Light', template: 'Light Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 400 },
-    { base: 'Sniping', class: 'Sniping, Light', template: 'Medium Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 500 },
-    { base: 'Sniping', class: 'Sniping, Medium', template: 'Heavy Assault', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 700 },
-    { base: 'Sniping', class: 'Sniping, Medium', template: 'Light Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 1200 },
-    { base: 'Sniping', class: 'Sniping, Heavy', template: 'Medium Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 2000 },
-    { base: 'Sniping', class: 'Sniping, Heavy', template: 'Heavy Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 5000 },
-    { base: 'Support', class: 'Support, Light', template: 'Light Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 1200 },
-    { base: 'Support', class: 'Support, Medium', template: 'Medium Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 2000 },
-    { base: 'Support', class: 'Support, Heavy', template: 'Heavy Support', pb: 1, sh: 15, me: 30, lo: 150, ex: 300, cost: 5000 },
-    { base: 'Sonic Stunner', class: 'Sonic Stunner', template: 'Sonic Stunner', pb: 1, sh: 5, me: 10, lo: 20, ex: 50, cost: 300 }
-  ];
+  weaponData: Weapon[] = WeaponConstants.weaponData;
+  techLevels: TechLevel[] = WeaponConstants.techLevels;
+  weightModifiers: Record<string, number> = WeaponConstants.weightModifiers;
+  weaponTypes: string[] = WeaponConstants.weaponTypes;
+  rangeMultipliers: Record<string, number> = WeaponConstants.rangeMultipliers;
+  energyTable = WeaponConstants.energyTable;
 
-  techLevels = [
-    { name: 'Middle Industrial Civilization', level: 17, powerCellCapacity: 1 },
-    { name: 'High Industrial Civilization', level: 18, powerCellCapacity: 2 },
-    { name: 'Low Cyber Age', level: 19, powerCellCapacity: 4 },
-    { name: 'High Cyber Age', level: 20, powerCellCapacity: 8 },
-    { name: 'Spacefaring Age', level: 21, powerCellCapacity: 16 },
-    { name: 'Starfaring Age', level: 22, powerCellCapacity: 32 },
-    { name: 'Star Colonial Period', level: 23, powerCellCapacity: 64 },
-    { name: 'Anti-Matter Age', level: 24, powerCellCapacity: 128 },
-    { name: 'Age of Artificial Gravity', level: 25, powerCellCapacity: 256 },
-    { name: 'Quantum Age', level: 26, powerCellCapacity: 512 },
-    { name: 'Age of Force', level: 27, powerCellCapacity: 1024 },
-    { name: 'Gavitic Age', level: 28, powerCellCapacity: 2048 },
-    { name: 'Age of Terraforming', level: 29, powerCellCapacity: 4096 },
-    { name: 'Age of Terraforming', level: 30, powerCellCapacity: 8192 }
-  ];
 
-  weaponWeights: Record<string, number> = {
-    'Light Pistol (Holdout)': 0.1,
-    'Light Pistol': 0.2,
-    'Medium Pistol': 0.4,
-    'Heavy Pistol': 0.6,
-    'Light Subassault': 2.5,
-    'Medium Subassault': 3,
-    'Heavy Subassault': 3.5,
-    'Light Assault': 3,
-    'Medium Assault': 3.5,
-    'Heavy Assault': 4,
-    'Light Support': 6,
-    'Medium Support': 12,
-    'Heavy Support': 18,
-    'Sonic Stunner': 0.01,
-  };
-
-  weightModifiers: Record<string, number> = {
-    'Blaster': 1,
-    'Laser': 0.8,
-    'Plasma': 1.3,
-  };
-  
-  weaponTypes = ['Laser', 'Blaster', 'Plasma', 'Sonic'];
-
-  energyTable = {
-    "Light Pistol (Holdout)": {
-      Laser: [0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16, 32],
-      Blaster: [0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16, 32],
-      Plasma: [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 4, 8, 16],
-    },
-    "Light Pistol": {
-      Laser: [0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32, 64],
-      Blaster: [0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32, 64],
-      Plasma: [0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 8, 16, 32],
-    },
-    "Medium Pistol": {
-      Laser: [0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34, 66],
-      Blaster: [0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34, 66],
-      Plasma: [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 10, 18, 34],
-    },
-    "Heavy Pistol": {
-      Laser: [0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36, 68],
-      Blaster: [0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36, 68],
-      Plasma: [0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 12, 20, 36],
-    },
-    "Light Subassault": {
-      Laser: [0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37, 69],
-      Blaster: [0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37, 69],
-      Plasma: [0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 13, 21, 37],
-    },
-    "Medium Subassault": {
-      Laser: [0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39, 71],
-      Blaster: [0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39, 71],
-      Plasma: [0, 0, 0, 0, 1, 2, 4, 5, 6, 7, 15, 23, 39],
-    },
-    "Heavy Subassault": {
-      Laser: [0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41, 73],
-      Blaster: [0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41, 73],
-      Plasma: [0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 17, 25, 41],
-    },
-    "Light Assault": {
-      Laser: [0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42, 74],
-      Blaster: [0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42, 74],
-      Plasma: [0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 18, 26, 42],
-    },
-    "Medium Assault": {
-      Laser: [0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43, 75],
-      Blaster: [0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43, 75],
-      Plasma: [0, 0, 0, 1, 2, 3, 6, 7, 8, 9, 20, 28, 43],
-    },
-    "Heavy Assault": {
-      Laser: [0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45, 77],
-      Blaster: [0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45, 77],
-      Plasma: [0, 0, 1, 2, 3, 4, 7, 8, 9, 10, 22, 30, 45],
-    },
-    "Light Support": {
-      Laser: [0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46, 78],
-      Blaster: [0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46, 78],
-      Plasma: [0, 0, 1, 2, 3, 4, 7, 8, 9, 10, 23, 31, 46],
-    },
-    "Medium Support": {
-      Laser: [0, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48, 80],
-      Blaster: [0, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48, 80],
-      Plasma: [0, 1, 1, 2, 3, 4, 8, 9, 10, 11, 25, 33, 48],
-    },
-    "Heavy Support": {
-      Laser: [1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50, 82],
-      Blaster: [1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50, 82],
-      Plasma: [1, 1, 2, 3, 4, 5, 9, 10, 11, 12, 27, 35, 50],
-    },
-  };
-
-  rangeMultipliers: Record<string, number> = {
-    Blaster: 1,
-    Laser: 5,
-    Plasma: 0.5,
-  };
   
 
   classes: string[] = [];
@@ -168,11 +43,22 @@ export class AppComponent {
   selectedReliabilityAdjustment: number = 0;
   selectedPowerCells: number = 1; // Default to 1 power cell
   selectedRangeIncrement: number = 0; // Default to 0% increment
+  selectedWeapon: Weapon | undefined;
 
   constructor() {
     this.populateClasses();
   }
-
+  
+  getWeaponByClassAndTemplate(): Weapon | undefined {
+    if (!this.selectedClass || !this.selectedTemplate) {
+      return undefined; // Return early if either is not populated
+    }
+    return this.weaponData.find(
+      (weapon) => weapon.class === this.selectedClass && weapon.template === this.selectedTemplate
+    );
+  }
+  
+  
   onTechLevelChange(): void {
     this.selectedBonus = 0; // Reset bonus to 0
   }
@@ -183,6 +69,7 @@ export class AppComponent {
 
   onClassChange(): void {
     const matchingTemplates = this.weaponData.filter(item => item.class === this.selectedClass);
+    
     this.templates = matchingTemplates.map(item => item.template);
 
     if (this.templates.length === 1) {
@@ -190,7 +77,7 @@ export class AppComponent {
     } else {
       this.selectedTemplate = null;
     }
-
+    this.selectedWeapon = this.getWeaponByClassAndTemplate();
     this.updateWeaponType();
   }
 
@@ -498,12 +385,12 @@ export class AppComponent {
   }
 
   getWeaponWeight(): number | null {
-    if (!this.selectedTemplate) {
-      return null; // No template selected
-    }
-  
+    this.selectedWeapon = this.getWeaponByClassAndTemplate();
+    if (!this.selectedWeapon)
+      return 0;
+
     // Retrieve weight based on the selected template
-    return this.weaponWeights[this.selectedTemplate] ?? null;
+    return this.selectedWeapon.weight;
   }
   
   getWeightModifier(): number {
@@ -525,21 +412,13 @@ export class AppComponent {
   }
 
   getBaseRanges(): { PB: number; Sh: number; Me: number; Lo: number; Ex: number } | null {
-    if (!this.selectedClass) {
-      console.error('No class selected');
+    if (!this.selectedWeapon) {
+      console.error('No weapon class/template selected');
       return null; // No class selected
     }
   
-    const weapon = this.weaponData.find(
-      w => w.class.toLowerCase().trim() === this.selectedClass?.toLowerCase().trim()
-    );
-  
-    if (!weapon) {
-      console.error('Class not found in weaponData:', this.selectedClass);
-      return null; // No matching weapon in data
-    }
-  
-    return { PB: weapon.pb, Sh: weapon.sh, Me: weapon.me, Lo: weapon.lo, Ex: weapon.ex };
+ 
+    return { PB: this.selectedWeapon.pb, Sh: this.selectedWeapon.sh, Me: this.selectedWeapon.me, Lo: this.selectedWeapon.lo, Ex: this.selectedWeapon.ex };
   }
   
   getFinalRanges(): { PB: number; Sh: number; Me: number; Lo: number; Ex: number } | null {

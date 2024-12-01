@@ -93,3 +93,25 @@
   font-weight: 600;
   color: #3f51b5;
 }
+mat-grid-tile {
+  background: lightblue;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3f51b5; /* Material Design primary color */
+  margin-right: 8px; /* Space between label and value */
+  display: inline-block; /* Ensures alignment with value */
+}
+
+/* Add scrollbars to this div */
+.scrollable {
+  overflow: auto; /* Enable scrollbars for content overflow */
+  max-height: 100%; /* Restrict the height to fit the tile */
+}
+
+.summary-card {
+  width: 600px;
+}
+
